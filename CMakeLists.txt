@@ -15,7 +15,9 @@ endif()
 
 add_executable(rtc src/main.cpp
         src/vec3.h
-        src/color.h)
+        src/color.h
+        src/ray.h
+        src/utils.h)
 
 include_directories(src)
 

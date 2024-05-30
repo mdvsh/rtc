@@ -22,4 +22,5 @@ void print_color(std::ostream &out, const color &pixel_color) {
   out << r_b << ' ' << g_b << ' ' << b_b << '\n';
 }
 
-#endif//RTC_SRC_COLOR_H_
+#endif
+//RTC_SRC_COLOR_H_

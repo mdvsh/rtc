@@ -103,4 +103,5 @@ inline vec3 cross(const vec3 &v_1, const vec3 &v_2) {
 		  v_1.d[0] * v_2.d[1] - v_1.d[1] * v_2.d[0]};
 }
 
-#endif//RTC_SRC_VEC3_H_
+#endif
+//RTC_SRC_VEC3_H_
