@@ -44,7 +44,7 @@ int main() {
 	  ray r(camera_origin, ray_dir);
 
 	  //	  color pixel_color{r, g, b};
-	  color pixel_color = bl_wh_grad_ray(r);
+	  color pixel_color = bl_wh_grad_red_sphere_ray(r);
 	  print_color(ss, pixel_color);
 	}
   }
