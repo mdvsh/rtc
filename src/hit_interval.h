@@ -7,23 +7,32 @@
 
 #include <limits>
 
-constexpr double infty = std::numeric_limits<double>::max();
+constexpr double infty = std::numeric_limits<double>::infinity();
 
 class hit_interval {
  public:
   double max, min;
 
   hit_interval() : min(-infty), max(infty) {}
+
   hit_interval(double m_min, double m_max) : min(m_min), max(m_max) {}
 
   [[nodiscard]] double size() const { return (max - min); }
+
   [[nodiscard]] bool contains(double x) const { return min <= x && x <= max; }
+
   [[nodiscard]] bool surrounds(double x) const { return min < x && x < max; }
 
-  static const hit_interval universe, empty;
+  [[nodiscard]] double clamp(double x) const {
+    if (x < min)
+      return min;
+    if (x > max)
+      return max;
+    return x;
+  }
+
+  static const hit_interval universe;
+  static const hit_interval empty;
 };
 
-const hit_interval hit_interval::universe = hit_interval(-infty, infty);
-const hit_interval hit_interval::empty = hit_interval(infty, -infty);
-
-#endif//RTC_SRC_HIT_INTERVAL_H_
+#endif  // RTC_SRC_HIT_INTERVAL_H_
