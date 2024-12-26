@@ -1,5 +1,8 @@
 #include "utils.h"
 
+#include "hit_interval.h"
+#include "vec3.h"
+
 static const point3 basic_unit_sphere_center(0, 0, -1);
 
 color bl_wh_grad(const ray& r) {
@@ -23,10 +26,4 @@ color bl_wh_grad_sphere_SN_clrmapped(const ray& r) {
   return bl_wh_grad(r);
 }
 
-color base_world_coloring(const ray& r, const hittable_list& world) {
-  hit_result res;
-  if (world.hit(r, hit_interval(0, infty), res)) {
-    return 0.5 * (res.normal + color(1, 1, 1));
-  }
-  return bl_wh_grad(r);
-}
+

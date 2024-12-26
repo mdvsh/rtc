@@ -28,15 +28,9 @@ inline double is_in_collision_sphere(const point3& C, double radius, const ray& 
   return (b_ - sqrt(d)) / a;
 }
 
-inline double random_double() {
-  static std::uniform_real_distribution<double> distri(0.0, 1.0);
-  static std::mt19937 generator;
-  return distri(generator);
-}
-
 color bl_wh_grad(const ray& r);
 color bl_wh_grad_red_sphere(const ray& r);
 color bl_wh_grad_sphere_SN_clrmapped(const ray& r);
-color base_world_coloring(const ray& r, const hittable_list& world);
+color base_world_coloring(const ray& r, const hittable_list& world, int depth = 50);
 
 #endif  // RTC_SRC_UTILS_H_

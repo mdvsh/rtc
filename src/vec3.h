@@ -5,10 +5,11 @@
 #ifndef RTC_SRC_VEC3_H_
 #define RTC_SRC_VEC3_H_
 
-#include "iostream"
+#include "math_utils.h"
 
 #include <cassert>
 #include <cmath>
+#include <iostream>
 
 class vec3 {
  public:
@@ -56,6 +57,12 @@ class vec3 {
   }
 
   [[nodiscard]] double norm_2() const { return (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]); }
+
+  static vec3 random() { return {random_double(), random_double(), random_double()}; }
+
+  static vec3 random(double min, double max) {
+    return {random_double(min, max), random_double(min, max), random_double(min, max)};
+  }
 };
 
 // add alias for future usage clarity.
@@ -106,6 +113,23 @@ inline vec3 cross(const vec3& v_1, const vec3& v_2) {
   return {v_1.d[1] * v_2.d[2] - v_1.d[2] * v_2.d[1],
           v_1.d[2] * v_2.d[0] - v_1.d[0] * v_2.d[2],
           v_1.d[0] * v_2.d[1] - v_1.d[1] * v_2.d[0]};
+}
+
+inline vec3 random_unit_vector() {
+  while (true) {
+    auto p = vec3::random(-1, 1);
+    auto lensq = p.norm_2();
+    if (1e-160 < lensq && lensq <= 1)
+      return p / sqrt(lensq);
+  }
+}
+
+inline vec3 random_on_hemisphere(const vec3& normal) {
+  vec3 on_unit_sphere = random_unit_vector();
+  if (dot(on_unit_sphere, normal) > 0.0)
+    return on_unit_sphere;
+  else
+    return -on_unit_sphere;
 }
 
 #endif

@@ -7,6 +7,7 @@
 #include "color.h"
 #include "hittable.h"
 #include "utils.h"
+#include "vec3.h"
 
 #include <iostream>
 
@@ -15,6 +16,7 @@ class camera {
   double aspect_ratio = 1.0;
   int image_width = 100;
   int samples_per_pixel = 10;
+  int max_depth = 50;
 
   void render(const hittable& world) {
     initialize();
@@ -27,7 +29,7 @@ class camera {
         color pixel_color(0, 0, 0);
         for (int sample = 0; sample < samples_per_pixel; sample++) {
           ray r = get_ray(i, j);
-          pixel_color += base_world_coloring(r, static_cast<const hittable_list&>(world));
+          pixel_color += ray_color(r, max_depth, static_cast<const hittable_list&>(world));
         }
         print_color(std::cout, pixel_color, samples_per_pixel);
       }
@@ -82,6 +84,21 @@ class camera {
     double px = -0.5 + random_double();
     double py = -0.5 + random_double();
     return (px * pixel_del_x) + (py * pixel_del_y);
+  }
+
+  color ray_color(const ray& r, int depth, const hittable_list& world) {
+    // If we've exceeded the ray bounce limit, no more light is gathered
+    if (depth <= 0)
+      return color(0, 0, 0);
+
+    hit_result res;
+    // Use a minimum t of 0.001 to fix "shadow acne"
+    if (world.hit(r, hit_interval(0.001, infty), res)) {
+      /* vec3 dir = random_on_hemisphere(res.normal); */
+      vec3 dir = res.normal + random_unit_vector();  // Lambertian way
+      return .5 * ray_color(ray(res.point, dir), depth - 1, world);
+    }
+    return bl_wh_grad(r);
   }
 };
 

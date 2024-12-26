@@ -19,6 +19,7 @@ add_executable(rtc src/main.cc
         src/color.cc
         src/ray.h
         src/utils.h
+        src/math_utils.h
         src/utils.cc
         src/hittable.h
         src/sphere.h
